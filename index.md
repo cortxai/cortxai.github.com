@@ -7,6 +7,8 @@ title: Home
 
 <p>It provides a local-first platform for developing, operating, and extending AI-driven systems that remain transparent, controllable, and deeply integrated with the tools developers already use.</p>
 
+<hr class="landing-divider">
+
 <div class="landing-expandable" id="landing-more" hidden>
   <p>CortX AI enables systems where:</p>
   <ul>
