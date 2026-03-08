@@ -1,0 +1,33 @@
+title: CortxAI
+description: Building intelligent systems at the edge of possibility.
+baseurl: ""
+url: "https://cortxai.github.io"
+author: "CortxAI"
+
+# Build settings
+theme: null
+markdown: kramdown
+
+# Permalinks
+permalink: pretty
+
+# Exclude from build
+exclude:
+  - .bundle
+  - .devcontainer.json
+  - .git
+  - .gitignore
+  - .jekyll-cache
+  - Gemfile
+  - Gemfile.lock
+  - README.md
+  - vendor
+  - vendor/bundle
+
+# Plugins (GitHub Pages compatible)
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+
+# Jekyll settings
+encoding: utf-8

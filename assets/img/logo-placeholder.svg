@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 120" width="320" height="120" role="img" aria-label="CortxAI logo placeholder">
+  <!-- Background -->
+  <rect width="320" height="120" fill="#14283C" rx="8"/>
+  <!-- Accent bar -->
+  <rect x="24" y="38" width="6" height="44" fill="#E89B2C" rx="3"/>
+  <!-- Wordmark -->
+  <text x="44" y="73"
+    font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif"
+    font-size="38"
+    font-weight="700"
+    letter-spacing="-0.5"
+    fill="#ffffff">Cortx<tspan fill="#E89B2C">AI</tspan></text>
+  <!-- Tagline -->
+  <text x="44" y="96"
+    font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif"
+    font-size="11"
+    font-weight="400"
+    letter-spacing="2"
+    fill="rgba(255,255,255,0.55)"
+    text-transform="uppercase">PLACEHOLDER LOGO</text>
+</svg>
