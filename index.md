@@ -3,19 +3,15 @@ layout: landing
 title: Home
 ---
 
-CortxAI is an applied AI research and engineering organisation focused on building
-intelligent systems that are robust, explainable, and production-ready. We work at
-the intersection of machine learning, systems engineering, and human-centred design
-to turn ambitious ideas into working software.
+CortX AI is a **local-first platform for building intelligent software systems** where natural language, automation, and traditional software infrastructure work together as a single programmable environment.
 
-Our work spans large-language-model tooling, agentic pipelines, and the
-infrastructure needed to run them reliably at scale. Everything we build is designed
-to be open, composable, and grounded in real engineering constraints — not just
-benchmark performance.
+It provides developers with the tools to create AI-driven systems that remain **transparent, inspectable, and fully under their control**. Rather than relying on opaque agent frameworks, CortX AI treats intelligence as a **composable system of models, tools, and pipelines** that can be observed, debugged, and extended like any other software architecture.
 
-We believe the most useful AI systems are the ones that are well-understood by the
-people who operate them. That conviction shapes every decision we make, from
-architecture to documentation to the tools we open-source.
+At the core of the platform is **COREtex**, a deterministic runtime that orchestrates models, tools, and services through a structured execution model designed for **clarity, reliability, and developer control**.
+
+The result is a platform where **AI becomes a first-class part of software architecture**—not a black box, but a capability that can be composed, audited, and evolved.
+
+CortX AI enables developers to build **automation systems, intelligent tooling, knowledge platforms, and domain-specific AI applications** on a foundation that is **modular, extensible, and local-first**.
 
 <div class="landing-cta">
   <a href="https://github.com/cortxai" class="project-link" target="_blank" rel="noopener noreferrer">
