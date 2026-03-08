@@ -222,6 +222,45 @@ img {
 }
 
 /* ============================================================
+   Show More / Expandable
+   ============================================================ */
+.landing-show-more {
+  margin-bottom: var(--spacing-xl);
+}
+
+.show-more-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--color-accent-amber);
+  font-family: var(--font-family);
+  font-size: var(--font-size-base);
+  font-weight: 500;
+  cursor: pointer;
+  transition: color var(--transition-fast);
+}
+
+.show-more-btn:hover {
+  color: var(--color-accent-copper);
+}
+
+.show-more-btn:focus {
+  outline: 2px solid var(--color-accent-teal);
+  outline-offset: 2px;
+}
+
+.landing-expandable {
+  margin-bottom: var(--spacing-lg);
+}
+
+.landing-expandable p {
+  font-size: var(--font-size-lg);
+  line-height: var(--line-height-normal);
+  color: var(--color-graphite-soft);
+  margin-bottom: var(--spacing-lg);
+}
+
+/* ============================================================
    GitHub Button (matches philbudden.github.com .project-link)
    ============================================================ */
 .project-link {
