@@ -260,6 +260,19 @@ img {
   margin-bottom: var(--spacing-lg);
 }
 
+.landing-expandable ul {
+  text-align: left;
+  font-size: var(--font-size-lg);
+  line-height: var(--line-height-normal);
+  color: var(--color-graphite-soft);
+  margin: 0 0 var(--spacing-lg) 0;
+  padding-left: var(--spacing-xl);
+}
+
+.landing-expandable ul li {
+  margin-bottom: var(--spacing-sm);
+}
+
 /* ============================================================
    GitHub Button (matches philbudden.github.com .project-link)
    ============================================================ */
