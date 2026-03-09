@@ -1,7 +1,7 @@
 {
   "name": "jekyll-site",
   "image": "mcr.microsoft.com/devcontainers/ruby:3.2",
-  "forwardPorts": [4000],
+  "appPort": [4000],
   "portsAttributes": {
     "4000": {
       "label": "Jekyll Preview",
@@ -9,6 +9,7 @@
     }
   },
   "postCreateCommand": "bundle install",
+  "postStartCommand": "bundle exec jekyll serve --host 0.0.0.0 --livereload 2>&1 | tee /tmp/jekyll.log &",
   "customizations": {
     "vscode": {
       "settings": {
