@@ -1,0 +1,28 @@
+---
+layout: base
+title: Documentation
+permalink: /docs/
+---
+<section class="docs-index">
+  <div class="docs-index-container">
+    <header class="docs-index-header">
+      <h1>Documentation</h1>
+      <p>Technical guides for the COREtex platform.</p>
+    </header>
+
+    <ul class="docs-index-list" role="list">
+      {% assign sorted_docs = site.docs | sort: 'order' %}
+      {% for doc in sorted_docs %}
+      <li>
+        <a href="{{ doc.url }}" class="docs-index-card">
+          <span class="docs-index-card-title">{{ doc.title }}</span>
+          {% if doc.description %}
+          <span class="docs-index-card-desc">{{ doc.description }}</span>
+          {% endif %}
+          <span class="docs-index-card-arrow" aria-hidden="true">→</span>
+        </a>
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+</section>

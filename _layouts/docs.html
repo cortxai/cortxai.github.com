@@ -1,0 +1,61 @@
+---
+layout: base
+---
+<div class="docs-layout">
+  <aside class="docs-sidebar" aria-label="Documentation navigation">
+    <a href="/docs/" class="docs-sidebar-heading">Documentation</a>
+    <nav>
+      <ul class="docs-sidebar-nav" role="list">
+        {% assign sorted_docs = site.docs | sort: 'order' %}
+        {% for doc in sorted_docs %}
+        <li>
+          <a href="{{ doc.url }}"{% if page.url == doc.url %} class="active" aria-current="page"{% endif %}>
+            {{ doc.title }}
+          </a>
+        </li>
+        {% endfor %}
+      </ul>
+    </nav>
+  </aside>
+
+  <article class="docs-content">
+    <header class="docs-content-header">
+      <h1>{{ page.title }}</h1>
+      {% if page.description %}
+      <p class="docs-content-description">{{ page.description }}</p>
+      {% endif %}
+    </header>
+    {{ content }}
+
+    {% assign sorted_docs = site.docs | sort: 'order' %}
+    {% assign docs_array = sorted_docs | map: 'url' %}
+    {% assign current_index = nil %}
+    {% for doc in sorted_docs %}
+      {% if doc.url == page.url %}
+        {% assign current_index = forloop.index0 %}
+      {% endif %}
+    {% endfor %}
+
+    <nav class="docs-pagination" aria-label="Document navigation">
+      {% if current_index and current_index > 0 %}
+        {% assign prev_index = current_index | minus: 1 %}
+        {% assign prev_doc = sorted_docs[prev_index] %}
+        <a href="{{ prev_doc.url }}" class="docs-pagination-link docs-pagination-prev">
+          <span class="docs-pagination-label">← Previous</span>
+          <span class="docs-pagination-title">{{ prev_doc.title }}</span>
+        </a>
+      {% else %}
+        <span></span>
+      {% endif %}
+
+      {% assign next_index = current_index | plus: 1 %}
+      {% assign next_doc = sorted_docs[next_index] %}
+      {% if next_doc %}
+        <a href="{{ next_doc.url }}" class="docs-pagination-link docs-pagination-next">
+          <span class="docs-pagination-label">Next →</span>
+          <span class="docs-pagination-title">{{ next_doc.title }}</span>
+        </a>
+      {% endif %}
+    </nav>
+  </article>
+</div>
