@@ -11,6 +11,19 @@ markdown: kramdown
 # Permalinks
 permalink: pretty
 
+# Collections
+collections:
+  docs:
+    output: true
+    permalink: /docs/:name/
+
+defaults:
+  - scope:
+      path: ""
+      type: docs
+    values:
+      layout: docs
+
 # Exclude from build
 exclude:
   - .bundle
