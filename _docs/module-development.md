@@ -4,7 +4,7 @@ description: How to build and register modules — classifiers, routers, workers
 order: 2
 ---
 
-> Version: v0.3.x Stabilisation
+> Version: v0.5.x Model Provider System
 
 ## Overview
 
@@ -62,7 +62,11 @@ You may safely ignore registries your module does not use.
 from modules.my_module.classifier import MyClassifier
 
 def register(module_registry, tool_registry, model_registry):
-    module_registry.register_classifier("my_classifier", MyClassifier())
+    provider = model_registry.get("ollama")
+    module_registry.register_classifier(
+        "my_classifier",
+        MyClassifier(model_provider=provider, model_provider_name="ollama"),
+    )
 ```
 
 The classifier must implement `coretex.interfaces.classifier.Classifier`:
@@ -102,7 +106,11 @@ class MyRouter(Router):
 from modules.my_module.worker import MyWorker
 
 def register(module_registry, tool_registry, model_registry):
-    module_registry.register_worker("my_worker", MyWorker())
+    provider = model_registry.get("ollama")
+    module_registry.register_worker(
+        "my_worker",
+        MyWorker(model_provider=provider, model_provider_name="ollama"),
+    )
 ```
 
 The worker must implement `coretex.interfaces.worker.Worker`:
@@ -146,9 +154,12 @@ The provider must implement `coretex.interfaces.model_provider.ModelProvider`:
 from coretex.interfaces.model_provider import ModelProvider
 
 class MyProvider(ModelProvider):
-    async def generate(self, prompt: str, **kwargs) -> str: ...
-    async def chat(self, messages: list, **kwargs) -> str: ...
+    async def generate(self, model: str, prompt: str, **kwargs) -> str: ...
+    async def chat(self, model: str, messages: list, **kwargs) -> str: ...
 ```
+
+In v0.5, classifier and worker modules should retrieve the provider from `model_registry` during registration and pass it into the component constructor. This keeps backend selection explicit and testable.
+Custom providers should raise `ModelProviderError` subclasses so runtime failure handling does not depend on a specific transport library.
 
 ---
 
@@ -169,12 +180,15 @@ loader.load("modules.my_module.module")
 
 ```python
 loader.load_all([
+    "modules.model_provider_ollama.module",
     "modules.classifier_basic.module",
     "modules.router_simple.module",
     "modules.worker_llm.module",
     "modules.tools_filesystem.module",
 ])
 ```
+
+If a classifier or worker resolves a provider during registration, load the provider module first.
 
 `load_all()` emits `event=module_loading_start` and `event=module_loading_complete` lifecycle events.
 
@@ -186,7 +200,8 @@ loader.load_all([
 |-------|-------|-----|
 | `Module 'x' has no register() function` | `module.py` is missing `register()` | Add the function |
 | `Invalid module register() signature` | `register()` doesn't accept all three registry params | Fix the function signature |
-| `Component already registered: <name>` | Two modules try to register the same name | Use unique component names |
+| `Component already registered: <name>` | Two modules try to register the same classifier/router/worker/tool name | Use unique component names |
+| `Model provider already registered: <name>` | Two modules register the same provider name | Use unique provider names |
 | `ImportError` | Module path is wrong | Check the dotted module path |
 
 ---
@@ -199,6 +214,7 @@ loader.load_all([
 4. **Never import from the runtime's private state** — use only the public registry APIs.
 5. **Log events consistently** — use structured `event=<name> key=value` format.
 6. **Modules may access settings** — import `coretex.config.settings.settings` for shared configuration.
+7. **Inject providers explicitly** — fetch the provider in `module.py` and pass it into the classifier/worker constructor.
 
 ---
 

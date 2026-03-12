@@ -4,7 +4,7 @@ description: The core execution environment — pipeline orchestration, registri
 order: 1
 ---
 
-> Version: v0.3.x Stabilisation
+> Version: v0.5.x Model Provider System
 
 ## Overview
 
@@ -73,8 +73,9 @@ Registries are the extension points between the runtime and modules.
 
 ### Registry Safety Rules
 
-- **Duplicate registration** raises `ValueError("Component already registered: <name>")`
-- **Unknown lookup** raises `ValueError("Unknown component: <name>")` and emits `event=registry_lookup_failed`
+- `ToolRegistry` and `ModuleRegistry` use `Component already registered` / `Unknown component`.
+- `ModelProviderRegistry` uses `Model provider already registered` / `Unknown model provider`.
+- `PipelineRegistry` uses `Pipeline already registered` / `Unknown pipeline`.
 
 ---
 
@@ -104,7 +105,7 @@ router.route(intent)
     └─► return clarification response
     │
 [if handler == "worker"]
-    ├─► event=worker_start
+    ├─► event=worker_start  (includes model_provider)
     ├─► worker.generate(user_input, intent)
     ├─► event=worker_complete  (includes duration_ms)
     │
@@ -137,6 +138,18 @@ class ExecutionContext:
 
 ---
 
+## Model Provider Flow
+
+v0.5 formalises inference behind `ModelProvider.generate()` and `ModelProvider.chat()`. The default `model_provider_ollama` module registers `"ollama"` once at bootstrap, and the classifier and worker receive that provider by explicit injection during module registration.
+
+This means:
+
+- the runtime still never depends on a concrete backend
+- pipeline orchestration stays deterministic
+- future providers can be added without changing `PipelineRunner`
+
+---
+
 ## Failure Behaviour
 
 All failure modes are handled gracefully — no pipeline error produces an unhandled exception.
@@ -156,8 +169,14 @@ All failure modes are handled gracefully — no pipeline error produces an unhan
 All runtime log events use structured `key=value` format:
 
 ```
+event=classifier_start request_id=abc123 classifier=classifier_basic model_provider=ollama
+event=model_provider_chat_start request_id=abc123 model_provider=ollama model=llama3.2:3b
+event=model_provider_chat_complete request_id=abc123 model_provider=ollama model=llama3.2:3b duration_ms=312
 event=classifier_complete request_id=abc123 intent=execution confidence=0.92 duration_ms=312
 event=router_selected request_id=abc123 intent=execution handler=worker
+event=worker_start request_id=abc123 worker=worker_llm intent=execution model_provider=ollama
+event=model_provider_generate_start request_id=abc123 model_provider=ollama model=llama3.2:3b
+event=model_provider_generate_complete request_id=abc123 model_provider=ollama model=llama3.2:3b duration_ms=1450
 event=worker_complete request_id=abc123 duration_ms=1450
 event=request_complete request_id=abc123 intent=execution confidence=0.92 handler=worker classifier_latency_ms=312 worker_latency_ms=1450 total_latency_ms=1765
 ```
@@ -194,4 +213,4 @@ event_bus.emit_warning("module_registered_nothing", module="my_module")
 event_bus.emit_error("pipeline_classifier_failure", request_id=request_id, error_type=...)
 ```
 
-In v0.3.x the EventBus is a structured log wrapper. A full async pub/sub event system is planned for v0.6.0.
+In v0.5.x the EventBus is still a structured log wrapper. A fuller event system is planned for a later phase.

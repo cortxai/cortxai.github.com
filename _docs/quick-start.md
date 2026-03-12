@@ -49,6 +49,8 @@ Browse to [http://localhost:3000](http://localhost:3000), create a local account
 
 ## Configuration options
 
+COREtex v0.5 routes inference through the `ModelProvider` abstraction. The default provider is `"ollama"`, so existing deployments keep working without any new configuration.
+
 **Use a remote Ollama instance:**
 
 ```bash
@@ -60,6 +62,8 @@ OLLAMA_BASE_URL=http://192.168.1.50:11434 docker compose up --build
 ```bash
 CLASSIFIER_MODEL=llama3.2:3b WORKER_MODEL=llama3.1:8b docker compose up --build
 ```
+
+This lets you use different models for classification and response generation while still going through the same registered provider.
 
 All settings are overridable via environment variables or a `.env` file.
 
@@ -78,5 +82,5 @@ All settings are overridable via environment variables or a `.env` file.
 
 ```bash
 pip install -r requirements.txt
-pytest tests/test_smoke.py -v
+python3 -m pytest tests/test_smoke.py -v
 ```
